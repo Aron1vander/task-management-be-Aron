@@ -14,5 +14,4 @@ def list_users(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
-    # Mengambil daftar user yang tersedia untuk dipakai sebagai assignee di frontend.
     return db.query(models.User).all()

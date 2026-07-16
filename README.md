@@ -31,22 +31,47 @@ source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## 2. Buat database di pgAdmin
+## 2. Buat database
+
+Pilih salah satu cara:
+
+### Opsi A — Docker (lebih cepat, tidak perlu install PostgreSQL manual)
+
+Pastikan [Docker Desktop](https://www.docker.com/products/docker-desktop/) sudah terinstall dan jalan, lalu:
+
+```bash
+docker compose up -d
+```
+
+Ini otomatis menjalankan:
+- **PostgreSQL** di `localhost:5432` (user: `postgres`, password: `postgres`, database: `task_management_db` — sudah otomatis dibuat, tidak perlu bikin manual lagi)
+- **pgAdmin** di `http://localhost:5050` (login: `admin@example.com` / `admin`) — opsional, kalau mau lihat data secara visual
+
+Cek containernya jalan:
+```bash
+docker compose ps
+```
+
+Untuk stop:
+```bash
+docker compose down
+```
+(Data tetap tersimpan di volume Docker, jadi aman kalau mau `docker compose up -d` lagi nanti. Kalau mau hapus datanya sekalian, pakai `docker compose down -v`.)
+
+### Opsi B — PostgreSQL lokal (pakai pgAdmin yang diinstall manual)
 
 Buka pgAdmin → klik kanan **Databases** → **Create** → **Database** → beri nama `task_management_db`.
 
 ## 3. Konfigurasi environment
 
 ```bash
-cp .env.example .env
+cp .env.example .env        # Mac/Linux
+copy .env.example .env       # Windows
 ```
 
-Edit `.env`, sesuaikan `password_kamu` dengan password PostgreSQL kamu:
-
-```
-DATABASE_URL=postgresql://postgres:password_kamu@localhost:5432/task_management_db
-SECRET_KEY=isi-dengan-string-acak-panjang
-```
+Edit `.env`:
+- Kalau pakai **Opsi A (Docker)**, `.env.example` sudah sesuai default (`postgres`/`postgres`), tidak perlu diubah.
+- Kalau pakai **Opsi B (lokal)**, ganti `password_kamu` di `DATABASE_URL` dengan password PostgreSQL kamu sendiri.
 
 ## 4. Seed dummy user (untuk login & dropdown assignee)
 

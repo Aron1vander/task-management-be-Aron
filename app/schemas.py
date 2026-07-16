@@ -5,7 +5,6 @@ from pydantic import BaseModel, EmailStr, ConfigDict
 
 
 # ---------- User ----------
-# Schema untuk data user yang diterima atau dikembalikan oleh API.
 class UserBase(BaseModel):
     name: str
     email: EmailStr
@@ -24,7 +23,6 @@ class UserLogin(BaseModel):
 
 
 # ---------- Task ----------
-# Schema untuk input dan output task yang dipakai di endpoint task.
 class TaskBase(BaseModel):
     title: str
     description: Optional[str] = None
@@ -55,7 +53,15 @@ class TaskOut(TaskBase):
 
 
 # ---------- Auth ----------
-# Schema untuk response token saat login berhasil.
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+
+
+# ---------- Chatbot ----------
+class ChatbotQuestion(BaseModel):
+    question: str
+
+
+class ChatbotResponse(BaseModel):
+    answer: str
